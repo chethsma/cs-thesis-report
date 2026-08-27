@@ -1,0 +1,72 @@
+%% =============================================================
+%%  chapters/09_conclusion.tex
+%% =============================================================
+\chapter{Conclusion and Future Work}
+\label{ch:conclusion}
+
+\section{Summary of Contributions}
+\label{sec:summary-contributions}
+This thesis presented a multi-task deep learning architecture that fuses
+camera images and seat-embedded pressure heatmaps to jointly estimate
+occupancy, passenger class, weight, and pose for automotive cabin
+monitoring. Key contributions include a synthetic pressure heatmap
+generation pipeline based on human body simulation, a Sim2Real validation
+procedure quantifying the domain gap between real and synthetic heatmaps,
+a camera-pressure synchronisation pipeline, and an empirical comparison of
+fusion strategies through ablation studies.
+%% TODO: Refine this summary once final results are available, and add
+%% any additional contributions (e.g. released dataset or code).
+
+\section{Answers to Research Questions}
+\label{sec:answers-research-questions}
+Revisiting the research questions posed in
+Section~\ref{sec:research-questions}: regarding RQ1, the ablation study in
+Section~\ref{sec:ablation-study} indicates \todo{summarise whether and by
+how much fusion improved each task}; regarding RQ2, the Sim2Real
+validation in Section~\ref{sec:sim2real-validation} shows \todo{summarise
+the measured statistical and domain-gap findings}; regarding RQ3, the
+comparison of fusion alternatives in
+Section~\ref{sec:fusion-alternatives-rejected} demonstrates \todo{state
+which fusion strategy was found preferable and why}; regarding RQ4, the
+Sim2Real transfer evaluation in
+Section~\ref{sec:sim2real-transfer-evaluation} shows \todo{summarise the
+effect of mixed real+synthetic training on real-only test performance}.
+%% TODO: Replace all placeholders above with concrete, results-grounded
+%% answers once Chapter 8 is finalised.
+
+\section{Limitations}
+\label{sec:limitations}
+The real pressure and camera dataset collected for this thesis is limited
+in subject diversity and recording duration due to practical laboratory
+constraints, and the synthetic data generation pipeline relies on
+simplifying assumptions in the human body and seat contact simulation
+that may not capture all real-world seating behaviours. Additionally, the
+evaluation was conducted offline on recorded data rather than on embedded
+target hardware, so real-time performance under production constraints
+remains to be confirmed.
+%% TODO: Add any further limitations identified during experimentation,
+%% e.g. specific failure modes discussed in Section~\ref{sec:discussion-failure-cases}.
+
+\section{Future Work}
+\label{sec:future-work}
+Future work could extend the real data collection campaign to a larger
+and more diverse subject population, incorporate additional sensing
+modalities such as depth or seatbelt tension sensors, and evaluate the
+proposed architecture on embedded automotive hardware to validate
+real-time feasibility under the non-functional requirements defined in
+Section~\ref{sec:non-functional-requirements}. Further investigation into
+domain adaptation techniques could also help further close the Sim2Real
+gap identified in Section~\ref{sec:domain-gap-assessment}.
+%% TODO: Prioritise future work items based on supervisor feedback and
+%% remaining time budget.
+
+\section{Closing Remarks}
+\label{sec:closing-remarks}
+The fusion of camera and pressure sensor data investigated in this
+thesis represents a step toward more robust, privacy-conscious cabin
+monitoring systems capable of supporting the next generation of adaptive
+vehicle safety features. The methodology and findings presented here are
+intended to inform both future academic research and practical system
+design in this area.
+%% TODO: Personalise closing remarks once the thesis defence date and
+%% final findings are confirmed.

@@ -1,0 +1,152 @@
+%% =============================================================
+%%  chapters/07_fusion_architecture.tex
+%% =============================================================
+\chapter{Sensor Fusion Architecture and Training Pipeline}
+\label{ch:fusion-architecture}
+
+\section{Overall Architecture Design}
+\label{sec:overall-architecture-design}
+The proposed architecture follows a two-branch feature-level fusion
+design, in which a camera branch and a pressure heatmap branch each
+extract modality-specific feature representations that are combined by a
+fusion module before being passed to four task-specific output heads for
+occupancy, passenger classification, weight, and pose estimation. This
+design directly implements the feature-level fusion strategy motivated in
+Section~\ref{sec:fusion-levels} and the design decisions summarised in
+Section~\ref{sec:design-decisions}.
+
+\section{Camera Branch}
+\label{sec:camera-branch}
+The camera branch consists of a convolutional neural network backbone
+that processes the preprocessed, ROI-cropped camera frame described in
+Section~\ref{sec:camera-roi-extraction} and produces a compact spatial
+feature embedding. A backbone pretrained on a large-scale image dataset
+is used as initialisation to compensate for the comparatively limited
+size of the in-cabin camera dataset, with the final classification layers
+removed and replaced by a projection to the shared fusion feature
+dimension.
+%% TODO: Specify exact backbone architecture (e.g. ResNet, EfficientNet,
+%% MobileNet variant) chosen for the embedded compute budget.
+
+\section{Pressure Heatmap Branch}
+\label{sec:pressure-branch}
+The pressure heatmap branch applies a separate, smaller convolutional
+network directly to the single-channel, spatially aligned pressure
+heatmap produced by the preprocessing pipeline in
+Section~\ref{sec:pressure-spatial-alignment}, producing a feature
+embedding of the same dimensionality as the camera branch output. A
+smaller network is used for this branch given the lower spatial
+resolution and information density of pressure heatmaps compared to
+camera images.
+%% TODO: Specify exact pressure branch architecture (number of
+%% convolutional layers, channel widths).
+
+\section{Fusion Module}
+\label{sec:fusion-module}
+
+\subsection{Feature-Level Fusion Strategy}
+\label{sec:feature-level-fusion-strategy}
+The camera and pressure feature embeddings are combined using a learned
+cross-modal attention fusion module, in which each modality's features
+attend to the other before being concatenated and projected to a shared
+fused representation, following the cross-modal attention design
+demonstrated for camera-depth fusion in \cite{oliveira2022crossmodal}.
+This fused representation is then passed to the multi-task output heads
+described in Section~\ref{sec:multi-task-output-heads}.
+%% TODO: Report exact attention mechanism dimensionality and number of
+%% fusion layers used.
+
+\subsection{Fusion Alternatives Considered and Rejected}
+\label{sec:fusion-alternatives-rejected}
+Simple feature concatenation followed by a fully connected layer was
+implemented as a baseline fusion strategy but was found to underweight
+the lower-dimensional pressure branch relative to the camera branch;
+decision-level fusion, in which independent per-modality predictions are
+averaged, was also considered but rejected because it cannot model
+cross-modal correlations such as a camera-visible object combined with a
+pressure signature inconsistent with a human occupant. Both alternatives
+are retained as baselines for the ablation study reported in
+Section~\ref{sec:ablation-study}.
+%% TODO: Report quantitative comparison against these alternatives once
+%% experiments are complete.
+
+\section{Multi-Task Output Heads}
+\label{sec:multi-task-output-heads}
+
+\subsection{Occupancy Detection Head}
+\label{sec:occupancy-head}
+The occupancy detection head is a lightweight fully connected layer
+followed by a sigmoid activation, producing a binary occupied/unoccupied
+probability for the corresponding seating position.
+
+\subsection{Passenger Classification Head}
+\label{sec:classification-head}
+The passenger classification head is a fully connected layer followed by
+a softmax activation over the predefined passenger classes (e.g. adult,
+child, child seat, object), sharing the fused feature representation with
+the other task heads.
+
+\subsection{Weight Estimation Head}
+\label{sec:weight-head}
+The weight estimation head is a small fully connected regression network
+that outputs a continuous estimate of occupant weight in kilograms,
+trained only on samples labelled as human occupants.
+
+\subsection{Pose Estimation Head}
+\label{sec:pose-head}
+The pose estimation head outputs either a fixed set of body keypoint
+coordinates or a discrete pose category, depending on the granularity of
+pose annotation available in the dataset described in
+Chapter~\ref{ch:data-acquisition}.
+%% TODO: Finalise whether pose is treated as keypoint regression or
+%% discrete pose classification, and update this subsection accordingly.
+
+\section{Loss Function Design and Task Balancing}
+\label{sec:loss-function-design}
+Each task head is trained with a task-appropriate loss term: binary
+cross-entropy for occupancy, categorical cross-entropy for passenger
+classification, mean squared error for weight estimation, and a
+keypoint or classification loss for pose estimation. The combined
+multi-task training objective is a weighted sum of the individual task
+losses,
+
+\begin{equation}
+\label{eq:multitask-loss}
+\mathcal{L}_{\text{total}} = \lambda_{\text{occ}} \, \mathcal{L}_{\text{occ}}
++ \lambda_{\text{cls}} \, \mathcal{L}_{\text{cls}}
++ \lambda_{\text{wt}} \, \mathcal{L}_{\text{wt}}
++ \lambda_{\text{pose}} \, \mathcal{L}_{\text{pose}},
+\end{equation}
+
+\noindent where $\lambda_{\text{occ}}$, $\lambda_{\text{cls}}$,
+$\lambda_{\text{wt}}$, and $\lambda_{\text{pose}}$ are task weighting
+coefficients. These coefficients are tuned to balance the differing
+scales and convergence rates of the four loss terms, as discussed in the
+multi-task learning background in Section~\ref{sec:multi-task-learning}.
+%% TODO: Report final values of the task weighting coefficients and
+%% whether a fixed schedule or learned/uncertainty-based weighting scheme
+%% was ultimately used.
+
+\section{Training Configuration}
+\label{sec:training-configuration}
+The model is implemented in PyTorch and trained using the Adam optimiser
+with a cosine learning-rate decay schedule, an initial learning rate
+selected via a short learning-rate range test, and a batch size chosen to
+fit the available GPU memory. Training is performed on a workstation
+equipped with a CUDA-capable GPU, with early stopping based on validation
+loss to reduce overfitting given the moderate dataset size described in
+Section~\ref{sec:final-dataset-composition}.
+%% TODO: Report exact learning rate, batch size, number of epochs, GPU
+%% model, and total training time once experiments are finalised.
+
+\section{Implementation Details}
+\label{sec:implementation-details}
+The camera and pressure branches, fusion module, and task heads are
+implemented as a single end-to-end trainable PyTorch model, with
+modality-specific data loaders that apply the preprocessing steps
+described in Chapter~\ref{ch:preprocessing-sync} on the fly during
+training. Model checkpoints corresponding to the best validation
+performance are retained for the evaluation reported in
+Chapter~\ref{ch:results}.
+%% TODO: Note any relevant software versions, random seed handling, or
+%% reproducibility measures taken.

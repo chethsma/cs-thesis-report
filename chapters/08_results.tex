@@ -1,0 +1,168 @@
+%% =============================================================
+%%  chapters/08_results.tex
+%% =============================================================
+\chapter{Results and Evaluation}
+\label{ch:results}
+
+\section{Experimental Setup and Evaluation Protocol}
+\label{sec:experimental-setup}
+All results reported in this chapter are computed on the held-out test
+split of the dataset described in Section~\ref{sec:final-dataset-composition},
+using the model checkpoint selected by best validation performance as
+described in Section~\ref{sec:training-configuration}. Occupancy and
+passenger classification are evaluated using accuracy and F1-score,
+weight estimation is evaluated using mean absolute error and weighted
+root mean squared error (WRMSE), and pose estimation is evaluated using
+mean per-keypoint error or classification accuracy depending on the final
+pose representation chosen in Section~\ref{sec:pose-head}.
+%% TODO: Confirm final evaluation metrics per task and any statistical
+%% significance testing procedure used.
+
+\section{Occupancy Detection Results}
+\label{sec:occupancy-results}
+The fused model is expected to achieve high occupancy detection accuracy
+given the strong, complementary occupancy signal present in both the
+camera and pressure modalities. Table~\ref{tab:occupancy-results}
+reports placeholder occupancy detection results across the evaluated
+models.
+
+\begin{table}[H]
+\centering
+\caption{Occupancy detection results on the held-out test set.}
+\label{tab:occupancy-results}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Model} & \textbf{Accuracy (\%)} & \textbf{F1-score} \\
+\midrule
+Camera-only   & \todo{XX.X} & \todo{0.XX} \\
+Pressure-only & \todo{XX.X} & \todo{0.XX} \\
+Fused (ours)  & \todo{XX.X} & \todo{0.XX} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%% TODO: Insert actual occupancy detection results once experiments are run.
+
+\section{Passenger Classification Results}
+\label{sec:classification-results}
+Passenger classification is expected to benefit most from fusion in cases
+where an object placed on the seat produces a pressure signature
+ambiguous with a small child but is visually distinguishable from the
+camera view, or vice versa under partial visual occlusion. Figure
+\ref{fig:classification-confusion} presents a placeholder confusion
+matrix for the fused model across all passenger classes.
+
+\begin{figure}[H]
+\centering
+%% TODO: Replace with the actual confusion matrix figure once generated.
+\includegraphics[width=0.7\textwidth]{classification_confusion_matrix}
+\caption{Confusion matrix for passenger classification using the fused
+camera-pressure model on the held-out test set.}
+\label{fig:classification-confusion}
+\end{figure}
+%% TODO: Discuss the most frequent misclassification pairs once available.
+
+\section{Weight Estimation Results}
+\label{sec:weight-results}
+Table~\ref{tab:weight-results} reports placeholder weight estimation
+error metrics, comparing the fused model against single-modality
+baselines.
+
+\begin{table}[H]
+\centering
+\caption{Weight estimation error on the held-out test set.}
+\label{tab:weight-results}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Model} & \textbf{MAE (kg)} & \textbf{WRMSE (kg)} \\
+\midrule
+Camera-only   & \todo{X.X} & \todo{X.X} \\
+Pressure-only & \todo{X.X} & \todo{X.X} \\
+Fused (ours)  & \todo{X.X} & \todo{X.X} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%% TODO: Insert actual weight estimation results once experiments are run.
+
+\section{Pose Estimation Results}
+\label{sec:pose-results}
+Pose estimation performance is reported in terms of the metric selected
+in Section~\ref{sec:pose-head} (mean per-keypoint error or classification
+accuracy). Figure~\ref{fig:pose-qualitative} shows placeholder qualitative
+examples comparing predicted and ground-truth pose across representative
+seating configurations.
+
+\begin{figure}[H]
+\centering
+%% TODO: Replace with actual qualitative pose estimation result figures.
+\includegraphics[width=0.85\textwidth]{pose_qualitative_results}
+\caption{Qualitative comparison of predicted and ground-truth occupant
+pose for representative seating configurations.}
+\label{fig:pose-qualitative}
+\end{figure}
+%% TODO: Insert quantitative pose estimation results table once available.
+
+\section{Ablation Study: Modality Contribution}
+\label{sec:ablation-study}
+To quantify the individual contribution of each modality, the fused model
+is compared against camera-only and pressure-only variants trained with
+the same task heads and training configuration. Table
+\ref{tab:ablation-modality} summarises this comparison across all four
+output tasks.
+
+\begin{table}[H]
+\centering
+\caption{Ablation study comparing camera-only, pressure-only, and fused
+model variants across all output tasks.}
+\label{tab:ablation-modality}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Metric} & \textbf{Camera-only} & \textbf{Pressure-only} & \textbf{Fused} \\
+\midrule
+Occupancy accuracy (\%)      & \todo{XX.X} & \todo{XX.X} & \todo{XX.X} \\
+Classification accuracy (\%) & \todo{XX.X} & \todo{XX.X} & \todo{XX.X} \\
+Weight MAE (kg)               & \todo{X.X}  & \todo{X.X}  & \todo{X.X} \\
+Pose error                    & \todo{X.X}  & \todo{X.X}  & \todo{X.X} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%% TODO: Insert actual ablation results once experiments are complete, and
+%% discuss statistical significance of the fused model's improvement.
+
+\section{Sim2Real Transfer Evaluation}
+\label{sec:sim2real-transfer-evaluation}
+To evaluate Sim2Real transfer, a model is trained on the mixed real and
+synthetic training set described in Section~\ref{sec:final-dataset-composition}
+and evaluated exclusively on the real-only subset of the test split.
+Table~\ref{tab:sim2real-transfer} compares this model against a variant
+trained only on real data, to isolate the effect of synthetic data
+augmentation on real-world performance.
+
+\begin{table}[H]
+\centering
+\caption{Sim2Real transfer evaluation: performance on real-only test data
+for models trained on real-only versus mixed real+synthetic data.}
+\label{tab:sim2real-transfer}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Metric} & \textbf{Trained on Real-only} & \textbf{Trained on Mixed (Real+Synthetic)} \\
+\midrule
+Occupancy accuracy (\%)      & \todo{XX.X} & \todo{XX.X} \\
+Classification accuracy (\%) & \todo{XX.X} & \todo{XX.X} \\
+Weight MAE (kg)               & \todo{X.X}  & \todo{X.X} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%% TODO: Insert actual Sim2Real transfer results and relate them back to
+%% the domain gap assessment in Section~\ref{sec:domain-gap-assessment}.
+
+\section{Discussion of Results and Failure Cases}
+\label{sec:discussion-failure-cases}
+Overall, the fused model is expected to outperform both single-modality
+baselines across most tasks, consistent with the complementary nature of
+camera and pressure information motivated in
+Section~\ref{sec:motivation}. Anticipated failure cases include
+ambiguous object-versus-child-seat pressure signatures under camera
+occlusion, and pose estimation errors for heavily reclined seating
+positions not well represented in the training data.
+%% TODO: Replace with an actual discussion grounded in the final
+%% experimental results, including specific qualitative failure examples.

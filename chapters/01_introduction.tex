@@ -1,0 +1,118 @@
+%% =============================================================
+%%  chapters/01_introduction.tex
+%% =============================================================
+\chapter{Introduction}
+\label{ch:introduction}
+%% 1-2 pages of content, including references to relevant literature, that explain
+
+\section{Motivation and Relevance}
+\label{sec:motivation}
+Occupant monitoring is becoming an increasingly important component of modern vehicle safety systems.
+Traditionally, vehicle restraint systems were designed around relatively constrained assumptions:
+occupants were expected to be seated in approximately upright, forward-facing positions, and 
+the driver was expected to remain continuously engaged in the driving task
+\cite{mcmurry2018crash}.
+These assumptions are becoming less representative as vehicles incorporate higher levels of driving automation, 
+more configurable interiors, and a wider range of in-cabin activities. 
+In highly automated vehicles, occupants may increasingly recline, rotate their seats, interact with other passengers,
+use mobile devices, work, or perform other non-driving-related activities
+\cite{mcmurry2018crash}. Consequently,
+the vehicle must account not only for whether a seat is occupied, 
+but also \emph{who or what occupies the seat and how the occupant is positioned}.
+
+
+
+
+%% why it is important to fuse camera and pressure data, and how it can improve occupant monitoring performance.
+%% what are the limitations of single-modality systems.
+%% TODO: Expand with concrete regulatory drivers (e.g. Euro NCAP roadmap,
+%% GTR requirements) and cite recent OEM occupant monitoring deployments.
+
+
+\section{Problem Statement}
+\label{sec:problem-statement}
+Existing occupant classification systems typically rely on a single
+sensing modality, which limits their robustness across the wide range of
+seating configurations, occupant sizes, and environmental conditions
+encountered in real vehicles. Furthermore, collecting sufficiently large
+and diverse real-world pressure sensor datasets is costly and raises data
+protection concerns, motivating the use of synthetic data generation.
+This thesis addresses the problem of designing, training, and evaluating
+a multi-task fusion model that jointly estimates occupancy, passenger
+class, weight, and pose from synchronised camera and pressure heatmap
+inputs.
+\cite{sviro} \cite{ticam} \cite{driveandact} \cite{dmd}
+
+
+%% TODO: Showing the limitations of single-modality systems and the proposed multi-modal fusion approach aim to solve. 
+%% 1.Modality imbalance in the literature: published in-cabin datasets and methods are overwhelmingly vision-based, 
+%% need for backup due to its limitations (occlusion, lighting, privacy).
+
+%% By iterating EURO NCAP requirements and how the proposed system can help to meet them, 
+%% the problem statement can be strengthened.
+
+
+\section{Research Questions}
+\label{sec:research-questions}
+The following research questions guide the design, implementation, and
+evaluation carried out in this thesis:
+" evaluvating suitability of heterogeneous fusion framework for the proposed modalities,comapring its peformance
+ to single-modality baselines".
+
+\begin{enumerate}
+    \item Fusion Benefits: To what extent does fusing camera and pressure heatmap data
+    improve occupancy, passenger classification, weight estimation, and
+    pose estimation accuracy compared to single-modality baselines?
+    \item Suitability of fusion architecture for these modalities? 
+    \item How should synthetic pressure heatmaps be generated and
+    validated to ensure they are statistically representative of real
+    seat pressure sensor recordings (Sim2Real gap)? \cite{clever2020bodiesrest3dhuman}
+    \item Which feature-level fusion strategy provides the best trade-off
+    between accuracy and computational cost for a real-time cabin
+    monitoring application?
+    \item degradation and abstention : how well can it peform under occlusion, lighting changes, faulty pressure sensor data and other adverse conditions, and
+     can it abstain from making predictions when one of the modalities is uncertain/low quality input?
+\end{enumerate}
+
+\cite{mobihoc} this is a novel deep fusion architecture that can be used to answer the above research questions.
+
+
+%% TODO: Confirm the final wording of the research questions with the, remove above references.
+%% supervisor and ensure they are consistently revisited in Chapter 9.
+
+\section{Objectives and Scope}
+\label{sec:objectives-scope}
+The primary objective of this thesis is to design and evaluate a
+multi-task deep learning architecture that fuses camera images and
+pressure heatmaps for cabin occupant state estimation. The scope covers
+system requirements definition, data collection , synthetic  pressure heatmaps generation 
+generation via human body simulation, a preprocessing and synchronisation
+pipeline, the fusion architecture itself, and a quantitative evaluation
+including ablation studies.
+
+%% TODO: Add a bullet-point delimitation list of in-scope vs. out-of-scope
+%% items once the experimental setup is finalised.
+
+\section{Thesis Structure}
+\label{sec:thesis-structure}
+Chapter~\ref{ch:background} introduces the background and fundamentals of
+cabin monitoring systems, pressure sensing technology, camera systems, and
+sensor fusion theory required to follow the remainder of the thesis.
+Chapter~\ref{ch:related-work} reviews related work on pressure-based and
+camera-based occupant monitoring, multi-modal fusion approaches, and
+synthetic data generation, concluding with a gap analysis that positions
+this work. Chapter~\ref{ch:system-requirements} defines the use cases,
+functional and non-functional requirements, and overall system
+architecture. Chapter~\ref{ch:data-acquisition} describes the real data
+collection protocol, the synthetic pressure heatmap generation pipeline,
+and the Sim2Real validation procedure. Chapter~\ref{ch:preprocessing-sync}
+presents the preprocessing and temporal synchronisation pipeline that
+prepares camera and pressure data for model training. Chapter
+\ref{ch:fusion-architecture} details the multi-task fusion architecture,
+loss formulation, and training configuration. Chapter~\ref{ch:results}
+reports quantitative results, ablation studies, and Sim2Real transfer
+evaluation. Finally, Chapter~\ref{ch:conclusion} summarises the
+contributions, answers the research questions, discusses limitations, and
+outlines future work.
+
+%% TODO: Update chapter references if chapters are renumbered or merged.

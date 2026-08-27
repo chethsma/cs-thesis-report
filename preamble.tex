@@ -1,0 +1,108 @@
+%% =============================================================
+%%  preamble.tex
+%%  Package configuration for the Campus Cham Master Thesis template
+%% =============================================================
+
+%% ---------------- Encoding, language, fonts -----------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+%% Helvetica/Arial-equivalent sans-serif font, as required by the
+%% Campus Cham thesis guideline.
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+%% ---------------- Page geometry -----------------------------------
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2cm]{geometry}
+
+%% ---------------- Line spacing (1.5) -------------------------------
+\usepackage{setspace}
+\onehalfspacing
+
+%% ---------------- Micro-typography ---------------------------------
+\usepackage{microtype}
+
+%% ---------------- Headings: chapter / section / subsection sizes ----
+\usepackage{titlesec}
+
+%% Chapter heading: 14pt bold, no "Chapter X" prefix -- shows "1 Introduction"
+\titleformat{\chapter}[hang]
+  {\normalfont\fontsize{14pt}{16pt}\selectfont\bfseries}
+  {\thechapter}
+  {1em}
+  {}
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+
+%% Section heading: 12pt bold
+\titleformat{\section}
+  {\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries}
+  {\thesection}
+  {1em}
+  {}
+
+%% Subsection heading: 11pt bold
+\titleformat{\subsection}
+  {\normalfont\fontsize{11pt}{13pt}\selectfont\bfseries}
+  {\thesubsection}
+  {1em}
+  {}
+
+%% Numbering depth: 1, 1.1, 1.1.1 (max 3 levels)
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+%% ---------------- Header / footer -----------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{} % clear all header/footer fields
+\fancyfoot[R]{\thepage} % page number, right-aligned, footer only
+\renewcommand{\headrulewidth}{0pt} % no header rule -- no header content
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyfoot[R]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+%% ---------------- Graphics, captions, tables -------------------------
+\usepackage{graphicx}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{longtable}
+
+%% ---------------- Maths -----------------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+%% ---------------- Colour -----------------------------------------------
+\usepackage{xcolor}
+
+%% ---------------- Hyperlinks and cross-references -----------------------
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=false,
+  pdfborder={0 0 0},
+  pdftitle={Sensor Fusion of Camera and Pressure Sensor Data for Cabin Monitoring System},
+  pdfauthor={CHETHAN SRINIVASAREDDY}
+}
+\usepackage{cleveref}
+
+%% ---------------- Bibliography (numeric, order of citation) -------------
+\usepackage[backend=bibtex,style=numeric,sorting=none,citestyle=numeric-comp]{biblatex}
+\addbibresource{bibliography.bib}
+
+%% ---------------- Draft annotations --------------------------------------
+%% GUIDANCE: Set disable=true before final submission to hide all \todo notes.
+\usepackage[colorinlistoftodos,textsize=footnotesize,disable=false]{todonotes}
+
+%% =============================================================
+%% NOTE ON ABBREVIATIONS LIST
+%% The glossaries package is intentionally NOT used here because its
+%% \makeglossaries / makeindex-based build step conflicts with the
+%% biblatex + bibtex workflow requested for this project. The List of
+%% Abbreviations is instead built manually as a two-column longtable in
+%% chapters/00_frontmatter.tex.
+%% =============================================================

@@ -1,0 +1,131 @@
+%% =============================================================
+%%  chapters/02_background.tex
+%% =============================================================
+\chapter{Background and Fundamentals}
+\label{ch:background}
+
+\section{Cabin Monitoring Systems}
+\label{sec:cabin-monitoring-systems}
+Cabin monitoring systems are commonly divided into driver monitoring
+systems (DMS), which focus on the driver's attentiveness and drowsiness,
+and occupant monitoring systems (OMS), which assess the presence,
+position, and classification of all vehicle occupants. Regulatory bodies
+such as Euro NCAP have progressively increased the weight given to
+occupant status monitoring in their safety rating protocols, driving
+adoption of both camera-based and pressure-based sensing across vehicle
+segments \cite{euroncap2023protocol}. Typical OMS use cases include
+seatbelt reminder logic, smart airbag suppression for child seats, and
+post-crash occupant status reporting for emergency services.
+
+%% TODO: Add a timeline of relevant Euro NCAP / GTR regulation milestones.
+
+\section{Pressure Sensing Technology}
+\label{sec:pressure-sensing}
+
+\subsection{Working Principle and Sensor Types}
+\label{sec:pressure-working-principle}
+Seat-integrated pressure sensors typically use resistive, capacitive, or
+piezoelectric transduction principles arranged in a grid to produce a
+spatially resolved pressure map of the seat surface. Resistive force
+sensing resistor (FSR) arrays are low-cost and widely used in automotive
+seat occupancy classification, while capacitive mats offer higher
+sensitivity at increased manufacturing cost \cite{mueller2019pressure}.
+The choice of sensor technology directly affects spatial resolution,
+sampling rate, and susceptibility to drift over the vehicle's operating
+temperature range.
+
+\cite{s21103346} This is paper on lower resolution pressure sensor array for driver posture monitoring and pose estimation.
+
+%%
+%% TODO: Document the sensor mat setup and grid resolution used.
+
+
+\subsection{Pressure Heatmap Representation}
+\label{sec:pressure-heatmap-representation}
+The raw output of a pressure sensor grid is commonly represented as a
+two-dimensional heatmap, where each pixel encodes the normalised pressure
+value at a corresponding physical location on the seat surface. This
+representation allows pressure data to be processed with the same
+convolutional architectures typically applied to single-channel images,
+which is a key enabler for the fusion architecture proposed in
+Chapter~\ref{ch:fusion-architecture}.
+
+%% TODO: Include the actual sensor grid resolution (rows x columns) used.
+
+\section{Camera Systems for In-Cabin Use}
+\label{sec:camera-systems}
+
+\subsection{RGB and IR Cameras}
+\label{sec:rgb-ir-cameras}
+Standard RGB cameras provide high-resolution colour imagery suitable for
+detailed pose and appearance analysis but perform poorly under low-light
+or backlit conditions common in vehicle cabins. Near-infrared (IR)
+cameras paired with active IR illumination maintain consistent image
+quality irrespective of ambient lighting and are therefore preferred in
+production driver and occupant monitoring systems \cite{schmidt2020driver}.
+
+%% TODO: Specify camera sensor model, resolution, and frame rate used.
+
+\subsection{Depth Cameras }
+\label{sec:depth-tof-cameras}
+
+%% TODO: State whether a depth channel is used in this thesis or reserved
+%% for future work.
+
+\section{Sensor Fusion Fundamentals}
+\label{sec:sensor-fusion-fundamentals}
+
+\subsection{Fusion Levels}
+\label{sec:fusion-levels}
+Sensor fusion approaches are typically categorised into data-level fusion
+(combining raw signals before any feature extraction), feature-level
+fusion (combining learned intermediate representations), and
+decision-level fusion (combining independent per-modality predictions).
+Feature-level fusion generally offers the best balance between
+representational flexibility and robustness to modality-specific noise,
+and is the strategy adopted for the architecture in this thesis
+\cite{chen2020multimodal}.
+
+
+
+
+%% TODO: 
+%% in Chapter 8, or whether this section remains purely for background.
+
+\subsection{Deep Learning-Based Fusion}
+\label{sec:deep-learning-fusion}
+Deep learning-based fusion replaces hand-crafted process and measurement
+models with learned convolutional or attention-based feature extractors
+per modality, followed by a learned fusion module, building on the
+general deep learning foundations of representation learning and
+gradient-based training described in \cite{goodfellow2016deep}. This
+approach scales naturally to high-dimensional, spatially structured
+inputs such as camera images and pressure heatmaps, and can be trained
+end-to-end jointly with the downstream task heads
+\cite{oliveira2022crossmodal}.
+
+\section{Multi-Task Learning}
+\label{sec:multi-task-learning}
+Multi-task learning trains a single shared backbone with multiple
+task-specific output heads, allowing related tasks to regularise one
+another and share statistical strength, which is particularly valuable
+when labelled data for some tasks (e.g. weight estimation) is scarcer than
+for others (e.g. binary occupancy). A central challenge in multi-task
+learning is balancing the loss contributions of tasks with different
+scales and convergence rates, which is addressed explicitly for this
+thesis in Section~\ref{sec:loss-function-design}.
+%% TODO: Cite foundational multi-task learning literature (e.g. Caruana,
+%% Kendall et al. uncertainty weighting) once the reference list is final.
+
+\section{Human Body Modelling for Simulation}
+\label{sec:human-body-modelling}
+Parametric human body models represent body shape and pose using a
+low-dimensional set of shape and joint-angle parameters, enabling
+generation of anatomically plausible body meshes across a wide population
+of statures and weights. Combined with a physics-based seat contact
+simulation, such models allow synthetic pressure heatmaps to be rendered
+for arbitrary occupant configurations without requiring a physical
+subject, which forms the basis of the synthetic data generation pipeline
+described in Section~\ref{sec:synthetic-heatmap-generation}
+\cite{ivanov2021synthetic}.
+%% TODO: Name the specific body model (e.g. SMPL or similar) once selected.

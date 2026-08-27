@@ -1,0 +1,106 @@
+%% =============================================================
+%%  chapters/06_preprocessing_sync.tex
+%% =============================================================
+\chapter{Data Preprocessing and Synchronisation}
+\label{ch:preprocessing-sync}
+
+\section{Pressure Heatmap Preprocessing}
+\label{sec:pressure-preprocessing}
+
+\subsection{Noise Filtering and Normalisation}
+\label{sec:pressure-noise-filtering}
+Raw pressure heatmaps are first passed through a spatial median filter to
+suppress isolated sensor cell dropouts and transient noise spikes, after
+which pixel values are normalised to a fixed range using the per-sensor
+calibration parameters obtained during the setup described in
+Section~\ref{sec:sensor-hardware-seat-setup}. This normalisation step
+ensures that synthetic and real heatmaps share a consistent value range
+prior to being combined in the mixed training dataset.
+%% TODO: Report the exact filter kernel size and normalisation bounds used.
+
+\subsection{Spatial Alignment and Resizing}
+\label{sec:pressure-spatial-alignment}
+Because the physical sensor grid resolution differs from the target input
+resolution expected by the pressure branch described in
+Section~\ref{sec:pressure-branch}, heatmaps are resampled onto a fixed
+target grid size using bilinear interpolation, and a fixed reference
+coordinate frame is applied so that seat regions (seat base, backrest)
+occupy consistent pixel regions across all recordings.
+%% TODO: State the exact target heatmap resolution used as network input.
+
+\section{Camera Frame Preprocessing}
+\label{sec:camera-preprocessing}
+
+\subsection{Image Normalisation and Augmentation}
+\label{sec:camera-normalisation-augmentation}
+Camera frames are resized to a fixed input resolution and normalised
+using per-channel mean and standard deviation statistics computed over
+the training split. During training, standard augmentations such as
+random brightness and contrast jitter, small rotations, and horizontal
+flipping (where anatomically valid for the seating position) are applied
+to improve robustness to the lighting and pose variation present in the
+target deployment scenarios described in Section~\ref{sec:use-case-definition}.
+%% TODO: Confirm final augmentation parameter ranges after initial
+%% training experiments.
+
+\subsection{Background Removal and ROI Extraction}
+\label{sec:camera-roi-extraction}
+A fixed region of interest (ROI) corresponding to each monitored seating
+position is cropped from the full camera frame using the known camera
+mounting geometry, and static background regions (e.g. door panels,
+window area) outside the seat envelope are masked out to reduce
+irrelevant visual variation presented to the camera branch.
+%% TODO: Document the ROI definition procedure (manual annotation vs.
+%% calibration-based projection) once finalised.
+
+\section{Temporal Synchronisation}
+\label{sec:temporal-synchronisation}
+
+\subsection{Timestamp Alignment Strategy}
+\label{sec:timestamp-alignment}
+Camera frames and pressure heatmap samples are each recorded with
+hardware or system-clock timestamps, and are aligned by matching each
+pressure sample to the camera frame with the closest timestamp within a
+fixed maximum tolerance window, discarding samples that fall outside this
+window to avoid pairing temporally inconsistent data.
+%% TODO: Specify the exact timestamp source (hardware trigger vs. system
+%% clock) and the chosen tolerance window in milliseconds.
+
+\subsection{Handling Frame Rate Mismatch}
+\label{sec:frame-rate-mismatch}
+Because the camera and pressure sensor operate at different native
+sampling rates, the higher-rate stream is downsampled to match the
+lower-rate stream at inference time, while during dataset construction
+all valid synchronised pairs are retained to maximise the number of
+training samples available from each recording session.
+%% TODO: Report native sampling rates for both modalities and the chosen
+%% downsampling strategy.
+
+\subsection{Validation of Synchronisation Quality}
+\label{sec:sync-quality-validation}
+Synchronisation quality is validated by manually inspecting a sample of
+paired camera-pressure recordings for temporal consistency (e.g.
+confirming that a visible occupant movement in the camera frame
+corresponds to a matching pressure distribution change), and by measuring
+the distribution of timestamp offsets across all paired samples in the
+dataset.
+%% TODO: Report the measured timestamp offset distribution once the
+%% synchronisation pipeline is implemented.
+
+\section{Final Data Pipeline Overview}
+\label{sec:final-pipeline-overview}
+Figure~\ref{fig:preprocessing-pipeline} illustrates the complete
+preprocessing pipeline, from raw camera and pressure sensor streams
+through per-modality preprocessing and temporal synchronisation to the
+production of paired training samples consumed by the fusion architecture
+described in Chapter~\ref{ch:fusion-architecture}.
+
+\begin{figure}[H]
+\centering
+%% TODO: Replace with the actual preprocessing pipeline diagram once
+%% created.
+\includegraphics[width=0.85\textwidth]{preprocessing_pipeline}
+\caption{Overview of the data preprocessing and temporal synchronisation
+pipeline, from raw sensor streams to synchronised training samples.}
+\label{fig:preprocessing-pipeline}
+\end{figure}

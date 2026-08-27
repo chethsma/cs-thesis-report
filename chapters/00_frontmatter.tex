@@ -1,0 +1,37 @@
+%% =============================================================
+%%  chapters/00_frontmatter.tex
+%%  List of Abbreviations (manual longtable).
+%%  Title page, acknowledgements, statement of authorship and
+%%  abstract are placed directly in main.tex; this file is
+%%  \input at the point where the List of Abbreviations should
+%%  appear (after List of Tables, before the main matter).
+%% =============================================================
+
+\chapter*{List of Abbreviations}
+\addcontentsline{toc}{chapter}{List of Abbreviations}
+
+\begin{longtable}{@{}p{3.5cm}p{10cm}@{}}
+\toprule
+\textbf{Abbreviation} & \textbf{Meaning} \\
+\midrule
+\endhead
+CNN      & Convolutional Neural Network \\
+DMS      & Driver Monitoring System \\
+EKF      & Extended Kalman Filter \\
+FOV      & Field of View \\
+GDPR     & General Data Protection Regulation \\
+IMU      & Inertial Measurement Unit \\
+IR       & Infrared \\
+MSE      & Mean Squared Error \\
+OMS      & Occupant Monitoring System \\
+RGB-D    & Red-Green-Blue plus Depth (image with depth channel) \\
+ROI      & Region of Interest \\
+Sim2Real & Simulation-to-Reality (transfer) \\
+ToF      & Time-of-Flight \\
+UKF      & Unscented Kalman Filter \\
+WRMSE    & Weighted Root Mean Squared Error \\
+\bottomrule
+\end{longtable}
+
+%% TODO: Add any further abbreviations introduced in later chapters
+%% (e.g. model or dataset acronyms) and keep this list alphabetically sorted.

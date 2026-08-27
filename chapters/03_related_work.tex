@@ -1,0 +1,99 @@
+%% =============================================================
+%%  chapters/03_related_work.tex
+%% =============================================================
+\chapter{Related Work and State of the Art}
+\label{ch:related-work}
+
+\section{Pressure-Based Occupant Detection and Classification}
+\label{sec:related-pressure}
+Early automotive seat occupancy detection relied on simple threshold-based
+binary weight switches, which were later extended to spatially resolved
+pressure mats capable of distinguishing occupant classes beyond a simple
+occupied/unoccupied signal \cite{mueller2019pressure}. Subsequent work
+applied regression neural networks directly to pressure heatmaps to
+estimate continuous occupant weight, demonstrating that spatial pressure
+distribution carries substantially more information than aggregate load
+alone \cite{nakamura2021weight}. A recent survey consolidates these
+pressure-sensing approaches and highlights classification accuracy,
+sensor cost, and robustness to seat cover variation as the primary axes
+along which such systems are compared \cite{fernandez2022occupant}.
+
+\section{Camera-Based Cabin Monitoring}
+\label{sec:related-camera}
+Camera-based approaches to cabin monitoring have progressed from
+frontal-face driver drowsiness detection toward full-cabin, multi-occupant
+pose estimation. Infrared camera systems combined with real-time pose
+estimation pipelines have been shown to operate reliably across day and
+night conditions inside the vehicle cabin \cite{schmidt2020driver}.
+Lightweight convolutional architectures tailored to the automotive
+embedded compute budget have been proposed specifically for occupant pose
+classification \cite{patel2021occupant}, while RGB-D fusion methods
+combine colour and depth cues to improve robustness against variable
+illumination and occluding objects such as blankets or bags placed on
+seats \cite{kowalski2023rgbd}.
+
+\section{Multi-Modal Sensor Fusion Approaches}
+\label{sec:related-fusion}
+Beyond the automotive cabin monitoring domain, multimodal deep fusion has
+been studied extensively for tasks such as autonomous driving perception
+and human activity recognition. A broad survey categorises fusion
+architectures by fusion level and highlights feature-level fusion with
+learned attention mechanisms as consistently outperforming naive
+data-level concatenation \cite{chen2020multimodal}. Cross-modal attention
+fusion between camera and depth sensors has further been shown to improve
+robustness specifically for human activity and pose recognition tasks
+\cite{oliveira2022crossmodal}, providing direct architectural inspiration
+for the camera-pressure fusion module proposed in this thesis.
+
+
+
+\section{Synthetic Data Generation and Sim2Real Transfer}
+\label{sec:related-sim2real}
+Given the cost and privacy constraints of collecting large real pressure
+sensor datasets across diverse occupant populations, synthetic data
+generation using simulated human bodies and physics-based seat contact
+models has emerged as a practical complement to real data collection
+\cite{ivanov2021synthetic}. Sim2Real studies quantify the remaining
+statistical gap between simulated and real sensor readings and propose
+domain adaptation or fine-tuning strategies to close it; a recent study
+specifically targeting seat pressure heatmaps reports meaningful
+performance retention when models trained on a mixture of synthetic and
+real data are evaluated on real-only test sets \cite{lindqvist2023sim2real}.
+
+\ref{clever2020bodiesrest3dhuman} provides a comprehensive review of human body simulation techniques for generating synthetic pressure heatmaps, including parametric body models, pose libraries, and physics-based contact simulations.
+
+\section{Gap Analysis and Positioning of This Work}
+\label{sec:gap-analysis}
+While the works reviewed above individually address pressure-based
+classification, camera-based pose estimation, generic multimodal fusion,
+or synthetic pressure data generation, none jointly combine camera and
+pressure heatmap fusion with a synthetic data generation and Sim2Real
+validation pipeline for the specific multi-task set of occupancy,
+passenger classification, weight, and pose estimation. Table
+\ref{tab:gap-analysis} summarises this positioning relative to the
+reviewed literature.
+
+\begin{table}[H]
+\centering
+\caption{Comparison of related work against the scope of this thesis.}
+\label{tab:gap-analysis}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Work} & \textbf{Modalities} & \textbf{Outputs Estimated} & \textbf{Synthetic Data} & \textbf{Real-Time} \\
+\midrule
+\cite{mueller2019pressure} & Pressure & Occupancy class & No & Yes \\
+\cite{clever2020bodiesrest3dhuman} & Pressure (sim) & Occupancy class & Yes & No \\
+\cite{nakamura2021weight}  & Pressure & Weight & No & No \\
+\cite{schmidt2020driver}   & Camera (IR) & Pose & No & Yes \\
+\cite{patel2021occupant}   & Camera (RGB) & Pose class & No & Yes \\
+\cite{kowalski2023rgbd}    & Camera (RGB-D) & Pose & No & Partial \\
+\cite{oliveira2022crossmodal} & Camera + Depth & Activity class & No & Partial \\
+\cite{ivanov2021synthetic} & Pressure (sim) & Occupancy class & Yes & No \\
+\cite{lindqvist2023sim2real} & Pressure & Statistical validation & Yes & No \\
+\textbf{This thesis} & Camera + Pressure & Occupancy, class, weight, pose & Yes & Target \\
+\bottomrule
+\end{tabular}
+\end{table}
+%% TODO: Revisit this table once the final list of baseline comparisons
+%% used in Chapter 8 is fixed, and add any additional works found during
+%% the systematic literature review.

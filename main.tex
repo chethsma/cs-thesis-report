@@ -1,0 +1,195 @@
+\documentclass[11pt,a4paper]{report}
+
+%% =============================================================
+%%  main.tex
+%%  Sensor Fusion of Camera and Pressure Sensor Data for Cabin
+%%  Monitoring System
+%%  Master Thesis -- Deggendorf Institute of Technology, Campus Cham
+%% =============================================================
+
+\input{preamble}
+
+\graphicspath{{figures/}}
+
+\begin{document}
+
+%% =============================================================
+%% FRONT MATTER (roman page numbers)
+%% =============================================================
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+%% ---------------- Title Page ----------------------------------
+\begin{titlepage}
+\centering
+
+{\large Deggendorf Institute of Technology\par}
+{\large Campus Cham\par}
+\vspace{0.3cm}
+{\large Course Name\par}
+
+\vspace{1.5cm}
+
+%% GUIDANCE: Replace the rule below with \includegraphics{figures/dit_logo}
+%% once the official DIT / Campus Cham logo file is available.
+\fbox{\parbox[c][3cm][c]{6cm}{\centering \todo[inline]{Insert DIT / Campus Cham logo here (figures/dit\_logo.pdf)}}}
+
+\vspace{2cm}
+
+{\Large \textbf{MASTER THESIS}\par}
+
+\vspace{1.5cm}
+
+{\Large \textbf{Sensor Fusion of Camera and Pressure Sensor Data\\ for Cabin Monitoring System}\par}
+
+\vspace{1.5cm}
+
+{\large submitted in the requirements for the degree of\par}
+\vspace{0.2cm}
+{\large \textbf{Master of Engineering}\par}
+
+\vspace{2cm}
+
+{\large by\par}
+\vspace{0.2cm}
+{\large \textbf{CHETHAN SRINIVASAREDDY}\par}
+\vspace{0.2cm}
+{\large Matriculation Number: \todo{Insert matriculation number}\par}
+
+\vspace{1.5cm}
+
+{\large Supervisor: [SUPERVISOR NAME]\par}
+%% TODO: Add second supervisor / external examiner line if required by Campus Cham guideline.
+
+\vspace{1.5cm}
+
+{\large Cham, 2026\par}
+
+\end{titlepage}
+
+%% ---------------- Restriction Note (disabled by default) ------
+%% GUIDANCE: If this thesis contains confidential company data, remove
+%% the \iffalse / \fi wrapper below to activate the restriction note,
+%% and fill in the company name and restriction period.
+\iffalse
+\thispagestyle{empty}
+\vspace*{4cm}
+\begin{center}
+\textbf{Restriction Note}
+\end{center}
+\noindent This thesis contains confidential information of \todo{Company Name}.
+It may only be made available to the first and second examiners and
+authorised members of the examination board. Publication and duplication
+of this thesis, even in part, is prohibited for a period of \todo{X years}
+from the date of submission without the express permission of
+\todo{Company Name}.
+\newpage
+\fi
+
+%% ---------------- Acknowledgements ------------------------------
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+I would like to express my sincere gratitude to my supervisor, [SUPERVISOR NAME],
+for the continuous guidance, constructive feedback, and support provided
+throughout the course of this thesis. I would further like to thank the
+research group at Deggendorf Institute of Technology, Campus Cham, for
+providing access to the laboratory infrastructure used for pressure sensor
+and camera data collection. Finally, I am grateful to my family and friends
+for their patience and encouragement during this work.
+%% TODO: Personalise acknowledgements with actual names of supervisors,
+%% colleagues, funding bodies, or companies that supported this thesis.
+\newpage
+
+%% ---------------- Statement of Authorship ------------------------
+\chapter*{Statement of Authorship}
+\addcontentsline{toc}{chapter}{Statement of Authorship}
+I hereby declare that I have authored this thesis independently, that I
+have not used other than the declared sources and aids, and that I have
+explicitly marked all material which has been quoted either literally or
+by content from the sources used. This thesis has not been submitted,
+either in part or as a whole, for any other academic degree or examination
+at this or any other institution. I am aware that any false statement
+regarding this declaration may lead to the invalidation of this thesis
+and may have legal consequences.
+
+\vspace{2cm}
+
+\noindent Cham, 2026 \hfill \makebox[6cm]{\hrulefill}
+
+\noindent \hfill [CHETHAN SRINIVASAREDDY]
+\newpage
+
+%% ---------------- Abstract ---------------------------------------
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+In-cabin occupant monitoring is increasingly required by vehicle safety
+regulation and by advanced restraint systems that must adapt to who is
+seated where. This thesis investigates the fusion of RGB camera images
+with pressure heatmaps obtained from seat-embedded pressure sensors in
+order to jointly estimate seat occupancy, passenger class, occupant
+weight, and body pose. A synthetic pressure heatmap generation pipeline
+based on human body simulation is proposed to complement limited real
+sensor data, together with a Sim2Real validation procedure that quantifies
+the remaining domain gap. A multi-task deep learning fusion architecture
+combining camera and pressure branches is designed, trained, and evaluated
+against single-modality baselines through ablation studies. The expected
+contribution is a validated fusion pipeline and dataset methodology that
+improves robustness of occupant state estimation over either sensing
+modality used in isolation.
+
+\vspace{0.5cm}
+\noindent \textbf{Keywords:} cabin monitoring, sensor fusion, pressure heatmap, occupant classification, pose estimation, Sim2Real, multi-task learning
+%% TODO: Replace with final abstract (approx. 250-300 words) once results are finalised.
+\newpage
+
+%% ---------------- Table of Contents / Figures / Tables ------------
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
+\newpage
+
+%% ---------------- List of Abbreviations ----------------------------
+\input{chapters/00_frontmatter}
+
+%% =============================================================
+%% MAIN MATTER (arabic page numbers)
+%% =============================================================
+\cleardoublepage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{chapters/01_introduction}
+\input{chapters/02_background}
+\input{chapters/03_related_work}
+\input{chapters/04_system_requirements}
+\input{chapters/05_data_acquisition}
+\input{chapters/06_preprocessing_sync}
+\input{chapters/07_fusion_architecture}
+\input{chapters/08_results}
+\input{chapters/09_conclusion}
+
+%% =============================================================
+%% BACK MATTER
+%% =============================================================
+\printbibliography[title=Bibliography]
+
+\appendix
+\input{appendix/appendix}
+
+\end{document}
+
+%% =============================================================
+%% COMPILE INSTRUCTIONS
+%% =============================================================
+%% pdflatex main
+%% bibtex main
+%% pdflatex main
+%% pdflatex main
+%%
+%% (Run pdflatex a first time to generate the .aux file, then bibtex
+%% to process bibliography.bib into main.bbl, then pdflatex twice more
+%% to resolve all cross-references, citation numbers, and the table
+%% of contents / list of figures / list of tables.)
+%% =============================================================

@@ -1,0 +1,108 @@
+%% =============================================================
+%%  appendix/appendix.tex
+%%  \appendix is invoked here; main.tex already called \appendix
+%%  before \input-ing this file, so chapters below are lettered
+%%  A, B, C, ... automatically.
+%% =============================================================
+
+\chapter{Statement of Ethics / Consent Form Template}
+\label{app:ethics-consent}
+This appendix reproduces the informed consent form template used for all
+human subject data collection sessions described in
+Section~\ref{sec:ethics-privacy}. Each participant received and signed a
+copy of this form prior to any camera or pressure sensor recording.
+
+\bigskip
+\noindent\textbf{Participant Information and Consent Form}
+
+\bigskip
+\noindent Study title: Sensor Fusion of Camera and Pressure Sensor Data
+for Cabin Monitoring System\\
+Institution: Deggendorf Institute of Technology, Campus Cham\\
+Researcher: [CHETHAN SRINIVASAREDDY]
+
+\bigskip
+\noindent I confirm that I have read and understood the information
+provided about this study, that I have had the opportunity to ask
+questions, and that my participation is voluntary and may be withdrawn at
+any time without giving a reason. I consent to the recording of camera
+images and pressure sensor data during the described seating
+configurations, and I understand that this data will be processed in
+accordance with the General Data Protection Regulation (GDPR) and used
+solely for the purposes of this research.
+
+\bigskip
+\noindent Participant name: \makebox[6cm]{\hrulefill} \quad
+Date: \makebox[3cm]{\hrulefill}
+
+\bigskip
+\noindent Signature: \makebox[6cm]{\hrulefill}
+
+%% TODO: Replace with the actual, institutionally approved consent form
+%% wording once available from the ethics board.
+
+\chapter{Full Dataset Statistics Table}
+\label{app:dataset-statistics}
+This appendix provides the extended version of the dataset composition
+summary introduced in Section~\ref{sec:final-dataset-composition},
+including per-class sample counts for each split.
+
+\begin{table}[H]
+\centering
+\caption{Extended per-class dataset statistics by split.}
+\label{tab:dataset-statistics-full}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\textbf{Split} & \textbf{Adult} & \textbf{Child} & \textbf{Child Seat} & \textbf{Object} & \textbf{Unoccupied} \\
+\midrule
+Training   & \todo{X} & \todo{X} & \todo{X} & \todo{X} & \todo{X} \\
+Validation & \todo{X} & \todo{X} & \todo{X} & \todo{X} & \todo{X} \\
+Test       & \todo{X} & \todo{X} & \todo{X} & \todo{X} & \todo{X} \\
+\midrule
+\textbf{Total} & \todo{X} & \todo{X} & \todo{X} & \todo{X} & \todo{X} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%% TODO: Populate with final per-class sample counts once dataset
+%% construction is complete.
+
+\chapter{Additional Results Figures}
+\label{app:additional-results-figures}
+This appendix collects additional qualitative result figures that
+supplement the evaluation presented in Chapter~\ref{ch:results}.
+
+\begin{figure}[H]
+\centering
+%% TODO: Replace with an actual grid of additional qualitative result
+%% images (e.g. further pose estimation examples, failure cases).
+\includegraphics[width=0.9\textwidth]{additional_results_grid}
+\caption{Additional qualitative results across representative test
+samples, supplementing Section~\ref{sec:discussion-failure-cases}.}
+\label{fig:additional-results-grid}
+\end{figure}
+%% TODO: Add further sub-figures using the subcaption package if a
+%% grid of individually labelled examples is required.
+
+\chapter{Electronic Data Carrier Contents}
+\label{app:electronic-data-carrier}
+%% GUIDANCE: Per the Campus Cham thesis guideline, bulky supplementary
+%% material (source code, raw datasets, trained model weights) must be
+%% provided on an electronic data carrier accompanying the printed
+%% thesis rather than included in the printed appendix.
+In accordance with the Campus Cham thesis submission guideline, the
+following supplementary material is provided on the accompanying
+electronic data carrier and is not reproduced in this printed appendix:
+
+\begin{itemize}
+    \item Full source code repository, including data preprocessing,
+    synthetic heatmap generation, model training, and evaluation scripts.
+    \item Raw and preprocessed real pressure sensor and camera datasets
+    described in Chapter~\ref{ch:data-acquisition} (subject to the data
+    retention and anonymisation constraints of Section~\ref{sec:ethics-privacy}).
+    \item Trained model checkpoints (weights) for the fused model and all
+    baseline variants evaluated in Chapter~\ref{ch:results}.
+    \item Configuration files specifying exact training hyperparameters
+    used to reproduce the results reported in this thesis.
+\end{itemize}
+%% TODO: Confirm final electronic data carrier contents list and format
+%% (USB drive, institutional repository link, etc.) with the supervisor.

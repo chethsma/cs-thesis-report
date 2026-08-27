@@ -1,0 +1,96 @@
+%% =============================================================
+%%  chapters/04_system_requirements.tex
+%% =============================================================
+\chapter{System Requirements and Design}
+\label{ch:system-requirements}
+
+\section{Use Case Definition and Target Scenarios}
+\label{sec:use-case-definition}
+The target system is a passenger car cabin monitoring function that
+continuously estimates, for each seating position, whether the seat is
+occupied, which passenger class occupies it (e.g. adult, or unknown), the occupant weight class, and the occupant's
+body pose. Target scenarios include front and rear seating positions, a range of occupant
+statures and clothing.
+
+
+%% TODO: Exact target vehicle platform and number of monitored,
+%% seating positions.
+
+\section{Functional Requirements}
+\label{sec:functional-requirements}
+The system shall satisfy the following functional requirements:
+\begin{enumerate}
+    \item[\textbf{FR-01}] The system shall detect, per seating position,
+    whether the seat is occupied or unoccupied.
+    \item[\textbf{FR-02}] The system shall classify the seat occupant into
+    predefined passenger classes (e.g. adult, or unknown).
+    \item[\textbf{FR-03}] The system shall estimate the occupant's weight
+    within a defined tolerance for adult.
+    \item[\textbf{FR-04}] The system shall estimate the occupant's body
+    pose for defined set  pose categories..
+\end{enumerate}
+
+%% TODO: Assign concrete numeric targets (e.g. exact class list, weight class) .
+
+\section{Non-Functional Requirements}
+\label{sec:non-functional-requirements}
+The system shall additionally satisfy the following non-functional
+requirements:
+\begin{enumerate}
+    \item[\textbf{NFR-01}] Occupancy detection accuracy shall exceed a
+    defined target (e.g. 98\%) across the validation dataset described in
+    Chapter~\ref{ch:data-acquisition}.
+    \item[\textbf{NFR-02}] The system shall remain robust to sensor noise,
+    partial occlusion, and seat cover variation without requiring
+    per-vehicle recalibration.
+    \item[\textbf{NFR-03}] All data collection, storage, and processing
+    shall comply with the General Data Protection Regulation (GDPR) and
+    applicable local data protection law.
+    \item[\textbf{NFR-05}] The trained model shall degrade gracefully if
+    one modality (camera or pressure) becomes temporarily unavailable.
+\end{enumerate}
+
+%% TODO: Define exact NFR-01 accuracy targets per output task and the
+%% corresponding tolerance levels.
+
+\section{System Architecture Overview}
+\label{sec:system-architecture}
+The proposed system architecture consists of four main stages: sensor
+data acquisition (camera and pressure sensor array), preprocessing and
+temporal synchronisation, the multi-task fusion model, and the output
+interface that exposes per-seat occupancy, classification, weight, and
+pose estimates to downstream vehicle systems. Figure
+\ref{fig:system-architecture} illustrates this pipeline at block-diagram
+level, showing the flow from raw sensor signals through synchronised
+preprocessing into the shared fusion backbone and task-specific output
+heads described in detail in Chapter~\ref{ch:fusion-architecture}.
+
+\cite{mobihoc} This is a novel deep fusion architecture that can be used .
+
+\begin{figure}[H]
+\centering
+%% TODO: Replace with the actual system architecture block diagram once
+%% created (e.g. exported from draw.io or similar tool as PDF/PNG).
+\includegraphics[width=0.85\textwidth]{system_architecture}
+\caption{Block diagram of the proposed camera-pressure sensor fusion
+system architecture, from raw sensor acquisition to multi-task output
+estimation.}
+\label{fig:system-architecture}
+\end{figure}
+
+\section{Design Decisions and Justification}
+\label{sec:design-decisions}
+Feature-level fusion was selected over data-level and decision-level
+fusion because it allows each modality-specific branch to learn
+representations suited to its own signal characteristics while still
+enabling the network to learn cross-modal correlations before the final
+task predictions are made, consistent with the fusion levels discussed in
+Section~\ref{sec:fusion-levels}. A multi-task learning formulation was
+chosen over four independent single-task models to exploit shared
+structure between occupancy, classification, weight, and pose labels, and
+to reduce the total inference compute footprint relative to running four
+separate networks.
+
+
+%% TODO: Add justification for specific backbone choice once architecture
+

@@ -1,0 +1,23 @@
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*-blx.bib
+
+# Local build transcripts
+build*.log
+
+# Editor and OS metadata
+.DS_Store
+Thumbs.db
+
