@@ -7,15 +7,16 @@
 %% ---------- Journal articles: occupant detection / pressure sensing ----------
 
 %% Motivation:
-@article{mcmurry2018crash,
-author = {McMurry, Timothy and Poplin, Gerald and Shaw, Greg and Panzer, Matthew},
-year = {2018},
-month = {04},
-pages = {1-19},
-title = {Crash safety concerns for out-of-position occupant postures: A look toward safety in highly automated vehicles},
-volume = {19},
-journal = {Traffic Injury Prevention},
-doi = {10.1080/15389588.2018.1458306}
+@article{mcmurry2018oop,
+  author  = {McMurry, Timothy L. and Poplin, Gerald S. and Shaw, Greg and Panzer, Matthew B.},
+  title   = {Crash Safety Concerns for Out-of-Position Occupant Postures: A Look Toward Safety in Highly Automated Vehicles},
+  journal = {Traffic Injury Prevention},
+  volume  = {19},
+  number  = {6},
+  pages   = {582--587},
+  year    = {2018},
+  doi     = {10.1080/15389588.2018.1458306},
+  url     = {https://www.tandfonline.com/doi/full/10.1080/15389588.2018.1458306}
 }
 
 @misc{fmvss208,
@@ -25,12 +26,27 @@ doi = {10.1080/15389588.2018.1458306}
   year         = {2023},
   note         = {Accessed: TODO}
 }
-@misc{nhtsa2000finalrule,
+
+@misc{nhtsaAdvancedAirbag,
   author       = {{National Highway Traffic Safety Administration}},
   title        = {Federal Motor Vehicle Safety Standards; Occupant Crash Protection. Final Rule},
-  howpublished = {65 Federal Register 30680},
+  howpublished = {65 Federal Register 30680, Docket No. NHTSA 00-7013},
   year         = {2000},
-  note         = {Advanced air bag rule; accessed: TODO}
+  note         = {Advanced air bag rule}
+}
+
+@misc{nhtsaAirbags,
+  author  = {{National Highway Traffic Safety Administration}},
+  title   = {Air Bags},
+  year    = {2026},
+  url     = {https://www.nhtsa.gov/vehicle-safety/air-bags},
+  urldate = {2026-08-27}
+}
+
+@article{nhtsaAirbagFatalities,
+  author = {Chidester, Augustus B. and Ferguson, Eric and Kindelberger, John C.},
+  title  = {Air Bag Crash Investigations},
+  note   = {National Highway Traffic Safety Administration, Paper No. 299}
 }
 
 @misc{ecer94,
@@ -104,6 +120,21 @@ location = {Catania, Italy},
 series = {Mobihoc '19}
 }
 
+@inproceedings{xueetal2019heteromultimodal,
+  author    = {Xue, Hongfei and Jiang, Wenjun and Miao, Chenglin and Yuan, Ye and Ma, Fenglong and Ma, Xin and Wang, Yijiang and Yao, Shuochao and Xu, Wenyao and Zhang, Aidong and Su, Lu},
+  title     = {DeepFusion: A Deep Learning Framework for the Fusion of Heterogeneous Sensory Data},
+  booktitle = {Proceedings of the Twentieth ACM International Symposium on Mobile Ad Hoc Networking and Computing},
+  series    = {MobiHoc '19},
+  pages     = {151--160},
+  year      = {2019},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  location  = {Catania, Italy},
+  doi       = {10.1145/3323679.3326513},
+  url       = {https://doi.org/10.1145/3323679.3326513},
+  keywords  = {Sensor Fusion, Internet of Things, Deep Learning}
+}
+
 %%----------------------------------------
 @Article{s21103346,
   author         = {Zhao, Mingming and Beurier, Georges and Wang, Hongyan and Wang, Xuguang},
@@ -116,6 +147,63 @@ series = {Mobihoc '19}
   url            = {https://www.mdpi.com/1424-8220/21/10/3346},
   issn           = {1424-8220},
   doi            = {10.3390/s21103346}
+}
+
+@Article{zhao2021lowrespressure,
+  author         = {Zhao, Mingming and Beurier, Georges and Wang, Hongyan and Wang, Xuguang},
+  title          = {Exploration of Driver Posture Monitoring Using Pressure Sensors with Lower Resolution},
+  journal        = {Sensors},
+  volume         = {21},
+  number         = {10},
+  article-number = {3346},
+  year           = {2021},
+  doi            = {10.3390/s21103346},
+  url            = {https://www.mdpi.com/1424-8220/21/10/3346},
+  issn           = {1424-8220}
+}
+
+@article{wang2025pressure,
+  author  = {Wang, Boren and Tu, Lili and Shi, Qiu-Qiong and Mo, Shiwei},
+  title   = {Deep Learning-Based Sitting Posture Recognition from Pressure Distribution Across Hard and Soft Seat Environment},
+  journal = {Applied Sciences},
+  volume  = {15},
+  number  = {23},
+  pages   = {12744},
+  year    = {2025},
+  doi     = {10.3390/app152312744},
+  url     = {https://www.mdpi.com/2076-3417/15/23/12744},
+  issn    = {2076-3417}
+}
+
+@article{reed2001ocatd,
+  author = {Reed, Matthew P. and Ebert, Sheila M. and Schneider, Lawrence W.},
+  title = {Development of Performance Specifications for the Occupant Classification Anthropomorphic Test Device ({OCATD})},
+  year = {2001},
+  note = {Paper Number 411}
+}
+
+@article{schaefer2021reclined,
+  author  = {Schaefer, Luise C. and Junge, Mirko and V{\"o}r{\"o}s, Ill{\'e}s and Ko{\c{c}}aslan, Kaan and Becker, Uwe},
+  title   = {Odds Ratios for Reclined Seating Positions in Real-World Crashes},
+  journal = {Accident Analysis \& Prevention},
+  volume  = {161},
+  pages   = {106357},
+  year    = {2021},
+  doi     = {10.1016/j.aap.2021.106357},
+  url     = {https://www.sciencedirect.com/science/article/pii/S0001457521003882},
+  issn    = {0001-4575}
+}
+
+@article{zhao2024takeover,
+  author  = {Zhao, Mingming and Bellet, Thierry and Richard, Bertrand and Giralt, Alain and Beurier, Georges and Wang, Xuguang},
+  title   = {Effects of Non-Driving Related Postures on Takeover Performance During Conditionally Automated Driving},
+  journal = {Accident Analysis \& Prevention},
+  volume  = {208},
+  pages   = {107793},
+  year    = {2024},
+  doi     = {10.1016/j.aap.2024.107793},
+  url     = {https://www.sciencedirect.com/science/article/pii/S0001457524003385},
+  issn    = {0001-4575}
 }
 
 @article{mueller2019pressure,
@@ -153,6 +241,18 @@ series = {Mobihoc '19}
 
 %% ---------- Conference papers: camera-based cabin monitoring / pose estimation ----------
 
+@article{salazar2025dms,
+  author = {Salazar-Calderon, Luis A. and Navarro-Tuch, Sergio Alberto and Izquierdo-Reyes, Javier},
+  title = {Framework, Implementation, and User Experience Aspects of Driver Monitoring: A Systematic Review},
+  journal = {Applied Sciences},
+  year = {2025},
+  volume = {15},
+  number = {21},
+  pages = {11638},
+  doi = {10.3390/app152111638},
+  url = {https://www.mdpi.com/2076-3417/15/21/11638}
+}
+
 @inproceedings{schmidt2020driver,
   author    = {Schmidt, Julia and Wagner, Felix and Braun, Markus},
   title     = {Driver and Passenger Monitoring via In-Cabin Infrared Cameras: A Real-Time Pose Estimation Approach},
@@ -185,6 +285,18 @@ series = {Mobihoc '19}
 
 %% ---------- Sensor fusion methods (multimodal deep learning) ----------
 
+@article{ortega2022multimodal,
+  author = {Ortega, Juan Diego and Ca{\~n}as, Paola Natalia and Nieto, Marcos and Otaegui, Oihana and Salgado, Luis},
+  title = {Challenges of Large-Scale Multi-Camera Datasets for Driver Monitoring Systems},
+  journal = {Sensors},
+  year = {2022},
+  volume = {22},
+  number = {7},
+  pages = {2554},
+  doi = {10.3390/s22072554},
+  url = {https://www.mdpi.com/1424-8220/22/7/2554}
+}
+
 @article{chen2020multimodal,
   author  = {Chen, Wei and Li, Xin and Zhou, Yan},
   title   = {Multimodal Deep Fusion Networks for Robust Perception: A Survey and Taxonomy},
@@ -206,7 +318,46 @@ series = {Mobihoc '19}
   doi       = {10.1007/978-3-031-19812-0_24}
 }
 
+@article{teshima2024multimodal,
+  author  = {Teshima, Takaaki and Niitsuma, Masahiro and Nishimura, Hidekazu},
+  title   = {Determining the Onset of Driver's Preparatory Action for Take-Over in Automated Driving Using Multimodal Data},
+  journal = {Expert Systems with Applications},
+  volume  = {246},
+  pages   = {123153},
+  year    = {2024},
+  doi     = {10.1016/j.eswa.2024.123153},
+  url     = {https://linkinghub.elsevier.com/retrieve/pii/S0957417424000186},
+  issn    = {0957-4174}
+}
+
+@misc{uneceR157,
+  author  = {{United Nations Economic Commission for Europe}},
+  title   = {{UN} Regulation on Automated Lane Keeping Systems Is Milestone for Safe Introduction of Automated Vehicles in Traffic},
+  year    = {2020},
+  url     = {https://unece.org/media/press/348314},
+  urldate = {2026-08-27}
+}
+
+@misc{eu2023addw,
+  author  = {{European Commission}},
+  title   = {Commission Delegated Regulation ({EU}) 2023/2590 of 13 July 2023 Supplementing Regulation ({EU}) 2019/2144 Concerning Advanced Driver Distraction Warning Systems},
+  year    = {2023},
+  url     = {http://data.europa.eu/eli/reg_del/2023/2590/oj},
+  urldate = {2026-08-27},
+  note    = {Official Journal of the European Union}
+}
+
 %% ---------- Synthetic data generation / Sim2Real transfer ----------
+@misc{clever2020bodies,
+  author    = {Clever, Henry M. and Erickson, Zackory and Kapusta, Ariel and Turk, Greg and Liu, C. Karen and Kemp, Charles C.},
+  title     = {Bodies at Rest: 3D Human Pose and Shape Estimation from a Pressure Image Using Synthetic Data},
+  year      = {2020},
+  publisher = {arXiv},
+  doi       = {10.48550/arXiv.2004.01166},
+  url       = {https://arxiv.org/abs/2004.01166},
+  note      = {Accepted for oral presentation at CVPR 2020}
+}
+
 @misc{clever2020bodiesrest3dhuman,
       title={Bodies at Rest: 3D Human Pose and Shape Estimation from a Pressure Image using Synthetic Data}, 
       author={Henry M. Clever and Zackory Erickson and Ariel Kapusta and Greg Turk and C. Karen Liu and Charles C. Kemp},
@@ -215,6 +366,32 @@ series = {Mobihoc '19}
       archivePrefix={arXiv},
       primaryClass={cs.CV},
       url={https://arxiv.org/abs/2004.01166}, 
+}
+
+@inproceedings{ray2023pressim,
+  author    = {Ray, Lala Shakti Swarup and Zhou, Bo and Suh, Sungho and Lukowicz, Paul},
+  title     = {{PresSim}: An End-to-End Framework for Dynamic Ground Pressure Profile Generation from Monocular Videos Using Physics-Based 3D Simulation},
+  booktitle = {2023 IEEE International Conference on Pervasive Computing and Communications Workshops and Other Affiliated Events (PerCom Workshops)},
+  year      = {2023},
+  pages     = {484--489},
+  address   = {Atlanta, GA, USA},
+  publisher = {IEEE},
+  doi       = {10.1109/PerComWorkshops56833.2023.10150221},
+  url       = {https://ieeexplore.ieee.org/document/10150221/},
+  isbn      = {978-1-6654-5381-3}
+}
+
+@inproceedings{ray2025chairpose,
+  author    = {Ray, Lala Shakti Swarup and Rey, Vitor Fortes and Zhou, Bo and Lukowicz, Paul and Suh, Sungho},
+  title     = {{ChairPose}: Pressure-Based Chair Morphology Grounded Sitting Pose Estimation Through Simulation-Assisted Training},
+  booktitle = {Proceedings of the 38th Annual ACM Symposium on User Interface Software and Technology},
+  year      = {2025},
+  pages     = {1--16},
+  address   = {Busan, Republic of Korea},
+  publisher = {ACM},
+  doi       = {10.1145/3746059.3747750},
+  url       = {https://dl.acm.org/doi/10.1145/3746059.3747750},
+  isbn      = {979-8-4007-2037-6}
 }
 
 
@@ -259,4 +436,12 @@ series = {Mobihoc '19}
   year        = {2023},
   number      = {ONM-2023-1.2},
   address     = {Leuven, Belgium}
+}
+
+@misc{euroncap2026,
+  author  = {{Euro NCAP}},
+  title   = {{Euro NCAP} Announces 2026 Protocol Changes to Tackle Modern Driving Risks},
+  year    = {2026},
+  url     = {https://www.euroncap.com/press-media/euro-ncap-announces-2026-protocol-changes-to-tackle-modern-driving-risks/},
+  urldate = {2026-08-27}
 }
