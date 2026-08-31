@@ -3,52 +3,76 @@
 %% =============================================================
 \chapter{Introduction}
 \label{ch:introduction}
-%% 1-2 pages of content, including references to relevant literature, that explain
-
-\section{Motivation and Relevance}
-\label{sec:motivation}
-Occupant monitoring is becoming more important as vehicle interiors and driving roles evolve. 
-Highly automated vehicles may allow occupants to adopt reclined, rotated, 
-or otherwise non-nominal seating postures that conventional restraint systems were 
-not primarily designed around \cite{mcmurry2018oop}. 
-Increasing automation is also associated with a broader range of non-driving-related activities, 
-which can change occupant posture and driver readiness \cite{zhao2024takeover}
-
-These changes are safety-relevant because occupant posture strongly influences restraint 
-interaction and injury risk. Real-world crash analysis using GIDAS data showed that belted 
-reclined occupants had higher odds of MAIS,2+, MAIS,3+, and MAIS,4+ injury than occupants 
-seated upright \cite{schaefer2021reclined}. In conditionally automated driving, non-driving postures 
-can also increase takeover time and reduce takeover quality \cite{zhao2024takeover}.
-
-Accurate occupant information is also important for airbag control. Although frontal airbags have saved 
-more than 50,000 lives, historical NHTSA investigations documented airbag-induced fatalities, 
-particularly among children and occupants positioned close to the airbag module \cite{nhtsaAirbags,nhtsaAirbagFatalities}.
-Such cases motivated advanced restraint systems capable of suppressing or adapting airbag deployment based on occupant 
-characteristics and seating conditions \cite{nhtsaAdvancedAirbag}. Information such as occupant presence, 
-weight, seated posture, and classification can therefore influence safety-critical restraint decisions.
 
 
-Regulation and consumer-safety assessment increasingly reflect this need. FMVSS No.~208 introduced advanced-airbag 
-performance requirements intended to reduce airbag-related injury to children and small occupants while maintaining 
-frontal-crash protection . UN Regulation No.~157 requires automated driving systems to assess driver 
-availability before a transition of control \cite{uneceR157}, while European regulations also require advanced
-driver-distraction warning functions \cite{eu2023addw}. Euro NCAP's 2026 protocols place greater emphasis on driver
-and occupant monitoring, seat-belt-use detection, occupant information, and restraint adaptation \cite{euroncap2026}.
+\section{background}
+\label{sec:background}
 
-A single sensing modality, however, may not provide sufficiently robust occupant-state estimation under all cabin 
-conditions. Camera-based monitoring can provide detailed information about body posture, appearance, and keypoints,
-but its performance can degrade under poor illumination, glare, shadows, or occlusion \cite{salazar2025dms}. 
-Seat-pressure sensing is independent of illumination and provides direct information about body-seat contact and loading,
-making it useful for occupant detection and classification \cite{reed2001ocatd}. 
-However, pressure data alone may be ambiguous when different occupants, objects, or postures generate 
-similar contact patterns.
+Occupant monitoring systems are becoming an increasingly important component of vehicle safety as vehicle interiors, 
+occupant behaviour, and the role of the driver evolve with higher levels of driving automation. Conventional 
+occupant-safety systems were primarily developed around relatively well-defined seating configurations and 
+nominal upright postures. In more highly automated vehicles, however, occupants may adopt reclined, rotated, 
+or otherwise non-nominal seating postures that differ from these conventional assumptions \cite{mcmurry2018oop}. 
+Automation also enables a broader range of non-driving-related activities, which can alter occupant posture and, 
+in conditionally automated vehicles, influence the driver's readiness to resume control \cite{zhao2024takeover}. 
+Consequently, occupant monitoring is evolving from simple seat-occupancy detection toward a more detailed description 
+of occupant presence, body characteristics, and seating posture.
 
-Camera and pressure sensing are therefore complementary modalities. Vision provides semantic and geometric information, 
-while pressure sensing provides physical contact and load information. Multimodal fusion can exploit this complementarity 
-to improve robustness when one modality becomes uncertain or partially degraded \cite{ortega2022multimodal}. 
-The central objective of this thesis is therefore to determine whether fusing RGB images and seat-pressure distribution maps 
-improves the estimation of occupancy, occupant class, posture, and weight compared with unimodal models.
+This transition is also reflected in current safety regulations and consumer-assessment frameworks. In the United States, 
+FMVSS No.~208 introduced advanced-airbag requirements intended to reduce airbag-induced injury to vulnerable occupants
+while maintaining frontal-crash protection \cite{fmvss208}. For conditionally automated driving, UN Regulation No.~157 
+requires a Driver Availability Recognition System to determine whether the driver is present and available to resume 
+control \cite{uneceR157}, while European regulations additionally require advanced driver-distraction warning functions 
+\cite{eu2023addw}. Euro NCAP's 2026 assessment framework extends occupant monitoring beyond the driver by introducing 
+dedicated Occupant Monitoring requirements, occupant-stature classification, automatic passenger-airbag disabling, and 
+additional credit for systems capable of optimising restraint and airbag performance for different occupant physiques 
+\cite{euroncap2026}.
 
+The relevance of occupant-state information is expected to increase further as automated-driving systems progress toward 
+vehicles that can operate without conventional driver controls. In June 2026, UNECE adopted the first global regulatory 
+framework for fully automated driving systems. Existing occupant-protection regulations, however, 
+do not yet fully cover all seating configurations that future automated interiors may enable. NHTSA's occupant-protection 
+rule for automated vehicles without conventional driving controls is limited to vehicles with conventional forward-facing 
+seating, while rear-facing and ``campfire'' seating configurations remain areas requiring further investigation. A UNECE 
+review similarly concluded that side-facing or rear-facing seats and torso recline angles greater than $25^{\circ}$ would 
+require substantial changes to existing occupant-protection regulations. These developments indicate that future 
+vehicle-safety systems will require increasingly accurate information about who occupies a seat and how that occupant is 
+positioned.
+
+\section{Motivation}
+\label{sec}
+The need for richer occupant-state information is primarily safety-driven because occupant posture and physical characteristics 
+influence the interaction between the human body and restraint systems. Real-world crash analysis using GIDAS data showed that 
+belted reclined occupants had higher odds of MAIS~2+, MAIS~3+, and MAIS~4+ injury than occupants seated upright 
+\cite{schaefer2021reclined}. In conditionally automated driving, non-driving postures can additionally increase takeover 
+time and reduce takeover quality \cite{zhao2024takeover}. Reliable estimation of seated posture is therefore relevant both 
+before a crash, where it can indicate driver readiness, and during a crash, where occupant geometry directly affects restraint 
+interaction.
+
+Occupant size or weight provides another relevant input because the appropriate restraint response is not identical for all 
+occupants. Advanced-airbag systems can use information about occupant weight, size, and seating position to suppress deployment 
+or adapt deployment intensity when necessary \cite{nhtsaAdvancedAirbag}. NHTSA notes that, when occupant weight or size is available, 
+different inflation levels may be selected for smaller and larger adults \cite{nhtsaAdvancedAirbag}. Multi-stage airbag systems 
+support such adaptation by independently controlling inflation stages to better match restraint force to occupant characteristics, 
+as described in NHTSA guidance on advanced-airbag functionality \cite{nhtsaAdvancedAirbag}. This is particularly important because inappropriate or overly aggressive airbag deployment has 
+historically caused serious and fatal injuries, especially for small occupants and occupants positioned close to the airbag module 
+\cite{nhtsaAirbags,nhtsaAirbagFatalities}. Since an airbag must also be replaced after deployment \cite{nhtsaAirbags}, suppressing 
+deployment when it is not required can provide an additional economic benefit.
+
+Obtaining occupancy, posture, and occupant-size information reliably from a single sensing modality remains difficult. Camera-based 
+monitoring provides rich semantic and geometric information, including body appearance, body landmarks, and upper-body posture, but
+its performance can deteriorate because of poor illumination, glare, shadows, or occlusion \cite{salazar2025dms}. Seat-pressure sensing 
+is independent of visible-light conditions and directly measures body-seat contact and load distribution, making it suitable for 
+occupant detection and classification \cite{reed2001ocatd}. Its limitation is different: pressure measurements contain comparatively 
+little semantic information, and similar contact distributions can be produced by different occupants or postures.
+
+The two sensing modalities therefore provide complementary information rather than redundant measurements. RGB images primarily 
+describe the visible geometry and semantic state of the occupant, whereas seat-pressure measurements describe the physical interaction 
+between the occupant and the seat. Multimodal fusion offers a means of combining these complementary observations and can potentially 
+provide more reliable predictions when one modality becomes uncertain or degraded \cite{ortega2022multimodal}. Based on this premise, 
+this thesis investigates whether feature-level fusion of monocular RGB cabin images and seat-pressure distribution maps improves the 
+classification of seat occupancy, seated posture, and occupant size or weight class compared with equivalent RGB-only and pressure-only 
+models.
 
 
 
@@ -58,32 +82,30 @@ improves the estimation of occupancy, occupant class, posture, and weight compar
 \label{sec:problem-statement}
 
 Reliable occupant monitoring requires the estimation of multiple occupant states, including seat occupancy, 
-occupant class, posture, and weight or weight category. This requirement is becoming increasingly relevant 
-as current vehicle-safety assessment frameworks place greater emphasis on occupant monitoring and the adaptation 
-of safety functions to occupant characteristics \cite{euroncap2026}. However, obtaining these states reliably 
-from a single sensing modality remains challenging.
+occupant category, posture, and occupant weight class . This requirement is becoming increasingly relevant as 
+vehicle-safety assessment frameworks such as Euro NCAP place greater emphasis on occupant monitoring and the 
+adaptation of safety functions to occupant characteristics \cite{euroncap2026}. Reliably estimating these states 
+from a single sensing modality, however, remains challenging.
 
 Camera-based systems provide rich semantic and geometric information for detecting occupants and estimating body posture, 
 but their performance can deteriorate under poor illumination, glare, shadows, and partial occlusion \cite{salazar2025dms}. 
-Seat-pressure sensing avoids these visual limitations and can capture body-seat contact, loading, and posture-related pressure 
-distributions. Even relatively low-resolution pressure configurations have demonstrated useful posture-recognition capability
+Seat-pressure sensing avoids these visual limitations and can capture body-seat contact, load distribution, and posture-related 
+pressure patterns. Even relatively low-resolution pressure configurations have demonstrated useful posture-recognition capability
 \cite{zhao2021lowrespressure}. Nevertheless, recent pressure-based studies show that performance can degrade when seating 
 conditions change and that geometrically similar postures may produce ambiguous pressure patterns \cite{wang2025pressure}. 
-Thus, the two sensing modalities provide complementary information but also exhibit different failure modes.
+Thus, the two sensing modalities provide complementary occupant information while exhibiting different failure modes.
 
 Multimodal in-cabin monitoring has already demonstrated that heterogeneous signals such as video, seat pressure, and 
 physiological measurements can be combined successfully for specific tasks such as driver takeover-state recognition
-\cite{teshima2024multimodal,xueetal2019heteromultimodal}. However, within the literature considered in this thesis, the benefit of jointly using 
-camera images and seat-pressure maps for a unified set of occupant-monitoring functions ---particularly occupancy, occupant
-classification, posture, and weight estimation---has not been sufficiently quantified against equivalent unimodal baselines.
+\cite{quan2024ergonomicfusion,teshima2024multimodal,xueetal2019heteromultimodal}. However, existing studies provide limited evidence on whether 
+combining camera images and seat-pressure maps improves a unified set of occupant-monitoring tasks—particularly occupancy, 
+occupant classification, posture, and occupant mass classification—relative to equivalent unimodal baselines.
 
-The central problem addressed in this thesis is therefore to determine whether learned fusion of camera and seat-pressure 
+The central problem addressed in this thesis is therefore to determine whether feature-level fusion of monocular RGB and seat-pressure 
 information provides a measurable improvement in occupant-state estimation compared with camera-only and pressure-only models. 
-This requires developing modality-specific representations, synchronizing the heterogeneous sensor streams, designing an 
-appropriate fusion strategy, and evaluating the fused model under the same data and performance criteria as the corresponding 
-unimodal systems.
+The comparison must be conducted using synchronized data, equivalent task definitions, and consistent evaluation criteria so that
+any performance gain can be attributed to multimodal fusion rather than differences in data or evaluation conditions.
 
-% quantify the class variables
 
 
 
@@ -117,58 +139,30 @@ Occupant state = the overall concept being estimated.
 Occupant-state attributes = occupancy, posture, and size/weight class.
 Classes = the discrete labels within each attribute.
 %---------------------------------------------------------------------------------------------------------------------------------
-\section{Scope and Delimitations}
-\label{sec:scope and delimitations}
-% what is being done
+\section{Scope}
+\label{sec:scope}
 
-The scope of this thesis is restricted to supervised, per-seat occupant-state attributes estimation using 
-synchronized RGB image and low-resolution seat-pressure distribution maps. The considered occupant-state attributes are occupancy,
-occupant class, seated posture, and occupant weight or weight category. Separate RGB and pressure encoders 
-are used to establish unimodal baselines, and their learned representations are combined using a feature-level 
-heterogeneous fusion . \cite{xueetal2019heteromultimodal}. The study evaluates whether fusion improves predictive 
-performance relative to the individual modalities under an identical dataset, data split, and evaluation protocol.
+This thesis investigates supervised, per-seat occupant-state classification using two heterogeneous sensing modalities: 
+monocular RGB cabin images and low-resolution seat-pressure distribution maps. The study is restricted to adult occupants 
+and considers three target attributes: seat occupancy, seated posture, and occupant mass class. RGB-only and pressure-only 
+models are evaluated as unimodal baselines and compared with a feature-level RGB--pressure fusion model under the same dataset 
+partitions and evaluation criteria.
 
+Seat occupancy is formulated using the classes \textit{occupied} and \textit{empty}. For occupied seats, posture is classified 
+as \textit{upright}, \textit{forward lean}, \textit{reclined}, or \textit{side lean}. Occupant mass is represented using three 
+study-specific classes: \textit{light} (49--$<63.35$,kg), \textit{medium} (63.35--$<89.45$,kg), and \textit{heavy} (89.45--101.2,kg). 
+The detailed geometric definitions of the posture classes and the justification of the mass-class boundaries are presented in 
+the experimental methodology.
 
-%Details of occupant-state attributes and classes:
+The pressure modality is represented using synthetic low-resolution pressure maps generated to reproduce the spatial 
+configuration of the target pressure-sensor system. Consequently, the conclusions regarding pressure-based and multimodal 
+performance are limited to this simulated representation. Transfer to a physical pressure mat and quantitative validation 
+of the simulated pressure distributions against real measurements are outside the scope of this study.
 
-This thesis investigates supervised, per-seat occupant-state attributes using two heterogeneous sensing modalities: 
-RGB cabin images and low-resolution seat-pressure distribution maps. The study is deliberately restricted to adult occupants and
-considers three classification attributes: seat occupancy, seated posture, and occupant weight class. 
-
-
-Seat occupancy is formulated as a binary classification problem with the classes \textit{occupied} and \textit{empty}. 
-
-For adult-occupied seats, the seated-posture attribute is formulated as a four-class classification problem comprising
-\textit{upright}, \textit{forward lean}, \textit{reclined}, and \textit{side lean}. These classes are selected to represent
-a nominal seated posture and three common non-nominal deviations that are relevant to occupant monitoring and restraint interaction. 
-Postures outside these predefined categories are not considered in this study.
-
-
-The occupant-weight attribute is formulated as a three-class classification problem comprising \textit{light}, \textit{medium}, 
-and \textit{heavy} adult occupants. The considered body-mass range is restricted to approximately 49--101.2~kg and is
-selected to span representative small, mid-size, and large adult occupants commonly used in automotive safety evaluation. 
-The classes are defined as \textit{light} (49--$<63.35$~kg), \textit{medium} (63.35--$<89.45$~kg), and \textit{heavy} (89.45--101.2~kg). 
-These boundaries are study-specific classification thresholds; children and occupants outside the defined adult range are not considered.
-
-
-% what are data modalities, what is simulated, what is real, what is in scope and out of scope:
-
-The study considers two sensing modalities: RGB cabin images and synthetic low-resolution seat-pressure distribution maps. 
-The pressure maps are generated through physics-based simulation and are designed to reproduce the spatial structure and 
-resolution of the target pressure-sensor configuration rather than to model the exact physical pressure values measured 
-by a real sensor.
-
-The conclusions of this thesis are therefore limited to classification performance using the simulated pressure representation. 
-Transfer of the trained pressure or fusion models to a physical pressure mat, and quantitative validation of the simulated 
-pressure distributions against real measurements, are outside the scope of this work.
-
-RGB-only and pressure-only models are evaluated as unimodal baselines and compared with a feature-level heterogeneous 
-fusion model adapted from DeepFusion \cite{xueetal2019heteromultimodal}. The study additionally evaluates the contribution 
-of the Weighted-Combination and Cross-Sensor components through ablation experiments and examines model robustness under 
-controlled degradation of either modality.
-
-The objective is to evaluate the effectiveness and robustness of RGB--pressure fusion for the defined occupant-state 
-classification tasks rather than to develop or validate a complete production-ready occupant monitoring system.
+Children, occupants outside the defined adult mass range, postures outside the predefined classes, production-vehicle deployment, 
+direct restraint-system control, and validation under crash conditions are not considered. The objective is limited to 
+evaluating whether RGB--pressure fusion improves the classification performance and robustness of the defined occupant-state 
+tasks relative to the corresponding unimodal models.
 
 
 
@@ -189,59 +183,6 @@ classification tasks rather than to develop or validate a complete production-re
 
 
 
-
-
-
-
-
-
-
-
-Our sensor's: 
- Capacitative Pressure sensor mat : 
-    Low resultion sensor,
-    presented as a 2D heatmap,
-
- RGB camera: 
-    2D image sensor,
-    presensted as a 2D image,
-
-
-These two sensors are heterogeneous, due to their different sensing modalities, data formats, and information content.
-
-
-
-Fusion Approaches:
-
-1. Signal / data-level (early fusion) — combine raw or lightly-processed measurements before feature extraction. 
-Concatenating raw CSI with raw accelerometer streams; Kalman-filtering redundant range sensors.
-
-    Best when: modalities are homogeneous, synchronized.
-
-2. Feature-level (mid-level fusion) — combine learned feature representations from each modality.
-
-    Advantages: handles heterogeneity naturally; dimensionality reduction before fusion; 
-        still learns joint cross-modal structure; robust to per-sensor scale differences.
-    Best : when modalities are comepletely heterogeneous, or modalities differ but jointly informative about same aspect .
-
-3.Decision-level (late fusion):
-    each sensor gets its own full classifier; outputs combined by voting, averaging, Bayesian combination etc
-
-    Advantages: maximum modularity — sensors can be added, removed, or fail gracefully; each branch trains independently,
-     sometimes on differently-sized datasets;
-
-    Costs: discards all cross-modal correlation — this is the big one. If a modality is only informative in combination with another, 
-    late fusion cannot see it. Also needs each modality to be individually sufficient for the task.
-
-
-Deep fusion architectures can combine multiple fusion strategies:
-    1. Per-branch encoders + concat (SR+Avg-style)
-    2.Attention-weighted
-    3.correlation modeling
-    4.Cross-modal attention
-
-
-Devices	2× smartphone, 1× smart watch, 1× Shimmer
 
 
 
@@ -266,24 +207,5 @@ Devices	2× smartphone, 1× smart watch, 1× Shimmer
 
 \section{Thesis Structure}
 \label{sec:thesis-structure}
-Chapter~\ref{ch:background} introduces the background and fundamentals of
-cabin monitoring systems, pressure sensing technology, camera systems, and
-sensor fusion theory required to follow the remainder of the thesis.
-Chapter~\ref{ch:related-work} reviews related work on pressure-based and
-camera-based occupant monitoring, multi-modal fusion approaches, and
-synthetic data generation, concluding with a gap analysis that positions
-this work. Chapter~\ref{ch:system-requirements} defines the use cases,
-functional and non-functional requirements, and overall system
-architecture. Chapter~\ref{ch:data-acquisition} describes the real data
-collection protocol, the synthetic pressure heatmap generation pipeline,
-and the Sim2Real validation procedure. Chapter~\ref{ch:preprocessing-sync}
-presents the preprocessing and temporal synchronisation pipeline that
-prepares camera and pressure data for model training. Chapter
-\ref{ch:fusion-architecture} details the multi-task fusion architecture,
-loss formulation, and training configuration. Chapter~\ref{ch:results}
-reports quantitative results, ablation studies, and Sim2Real transfer
-evaluation. Finally, Chapter~\ref{ch:conclusion} summarises the
-contributions, answers the research questions, discusses limitations, and
-outlines future work.
 
 %% TODO: Update chapter references if chapters are renumbered or merged.
